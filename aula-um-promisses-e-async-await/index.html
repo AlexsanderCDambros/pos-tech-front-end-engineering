@@ -18,17 +18,23 @@
             flex-direction: row;
         }
         .posts{
+            position: sticky;
+            top: 20px;
             display: flex;
             justify-content: start;
             align-items: center;
             flex-direction: column;
+        }
+        #postIdInput, #postIdInputLabel {
+            position: sticky;
+            top: 5px;
         }
     </style>
 </head>
 <body>
     <h1>Teste async/await e promisses</h1>
 
-    <label for="postIdInput">ID a procurar:</label>
+    <label id="postIdInputLabel" for="postIdInput">ID a procurar:</label>
     <input type="text" id="postIdInput" style="margin-bottom: 16px;">
 
     <div class="container">

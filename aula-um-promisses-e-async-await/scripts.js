@@ -64,7 +64,7 @@ function imprimeComments(comment) {
 
     if (!comment || comment.length === 0) {
         postElement.innerHTML = `
-            <p>Não há comentariuos</p>
+            <p>Não há comentários</p>
         `;
         return;
     }
@@ -132,12 +132,55 @@ buttonOfpromiseAllButton.addEventListener('click', () => {
 
 buttonOfpromiseAllSettledButton.addEventListener('click', () => {
     console.log('Promise.allSettled function called!');
+
+    Promise.allSettled(
+        [getPosts(inputOfPostId.value), getComments(inputOfPostId.value)]
+    )
+        .then((responses) => {
+            responses.forEach((response) => {
+                if (response.status === 'fulfilled') {
+                    if (response.value) {
+                        if (Array.isArray(response.value) && response.value.length > 0) {
+                            imprimeComments(response.value);
+                        } else {
+                            imprimePost(response.value);
+                        }
+                    }
+                }
+            });
+        })
+        .catch((error) => {
+            console.error('Erro Promisse All Settled: ', error);
+        })
 });
 
 buttonOfpromiseRaceButton.addEventListener('click', () => {
     console.log('Promise.race function called!');
+
+    Promise.race(
+        [getPosts(inputOfPostId.value), getComments(inputOfPostId.value)]
+    )
+        .then((response) => {
+            if (Array.isArray(response)) {
+                imprimeComments(response);
+            } else {
+                imprimePost(response);
+            }
+        })
+        .catch((error) => {
+            console.error('Erro Promisse Race: ', error);
+        })
 });
 
-buttonOfpromiseAsyncAwaitButton.addEventListener('click', () => {
+buttonOfpromiseAsyncAwaitButton.addEventListener('click', async () => {
     console.log('Promise async/await function called!');
+
+    try {
+        const post = await getPosts(inputOfPostId.value);
+        imprimePost(post);
+        const comments = await getComments(post.id);
+        imprimeComments(comments);
+    } catch (error) {
+        console.error('Erro Promisse Async Await: ', error);
+    }
 });
