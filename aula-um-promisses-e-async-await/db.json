@@ -1,0 +1,36 @@
+{
+    "posts": [
+        {
+            "id": "1",
+            "title": "a title",
+            "views": 100
+        },
+        {
+            "id": "2",
+            "title": "another title",
+            "views": 200
+        }
+    ],
+    "comments": [
+        {
+            "id": "1",
+            "postId": "1",
+            "text": "a comment"
+        },
+        {
+            "id": "2",
+            "postId": "1",
+            "text": "another comment"
+        },
+        {
+            "id": "3",
+            "postId": "2",
+            "text": "a comment"
+        },
+        {
+            "id": "4",
+            "postId": "2",
+            "text": "another comment"
+        }
+    ]
+}

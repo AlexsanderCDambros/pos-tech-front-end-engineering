@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste  callback, async/await e promisses</title>
+    <style>
+        .card {
+            border: 1px solid #000c;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: start;
+            flex-direction: row;
+        }
+        .posts{
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste async/await e promisses</h1>
+
+    <label for="postIdInput">ID a procurar:</label>
+    <input type="text" id="postIdInput" style="margin-bottom: 16px;">
+
+    <div class="container">
+        <div>
+            <div class="card">
+                <h2>Teste callback</h2>
+                <button id="callbackButton">Callback</button>
+            </div>
+            <div class="card">
+                <h2>Teste Promise</h2>
+                <button id="promiseButton">Promise</button>
+            </div>
+            <div class="card">
+                <h2>Teste Promise All</h2>
+                <button id="promiseAllButton">Promise All</button>
+            </div>
+            <div class="card">
+                <h2>Teste Promise All Settled</h2>
+                <button id="promiseAllSettledButton">Promise All Settled</button>
+            </div>
+            <div class="card">
+                <h2>Teste Promise Race</h2>
+                <button id="promiseRaceButton">Promise Race</button>
+            </div>
+            <div class="card">
+                <h2>Teste Async/Await</h2>
+                <button id="promiseAsyncAwaitButton">Promise Async/Await</button>
+            </div>
+        </div>
+        <div class="card posts">
+            <div id="post"></div>
+            <div id="comments"></div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
