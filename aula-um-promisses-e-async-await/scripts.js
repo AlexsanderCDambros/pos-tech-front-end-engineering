@@ -8,11 +8,15 @@ const buttonOfpromiseAsyncAwaitButton = document.getElementById("promiseAsyncAwa
 const inputOfPostId = document.getElementById("postIdInput");
 inputOfPostId.value = 1;
 
-function getPosts(postId, callback) {
+function getPosts(postId) {
     return fetch('http://localhost:3000/posts/' + postId)
         .then((response) => {
             return response.json();
-        })
+        });
+}
+
+function getPostsCb(postId, callback) {
+    return getPosts(postId)
         .then((post) => {
             callback(null, post);
         })
@@ -21,11 +25,15 @@ function getPosts(postId, callback) {
         });
 }
 
-function getComents(postId, callback) {
+function getComments(postId) {
     return fetch('http://localhost:3000/comments?postId=' + postId)
         .then((response) => {
             return response.json();
-        })
+        });
+}
+
+function getCommentsCb(postId, callback) {
+    return getComments(postId)
         .then((post) => {
             callback(null, post);
         })
@@ -70,13 +78,13 @@ function imprimeComments(comment) {
 buttonOfcallbackButton.addEventListener('click', () => {
     console.log('Callback function called!');
     const postId = inputOfPostId.value;
-    getPosts(postId, (err, post) => {
+    getPostsCb(postId, (err, post) => {
         if (err) {
             console.error(err);
             return;
         }
         imprimePost(post);
-        getComents(post.id, (err, comments) => {
+        getCommentsCb(post.id, (err, comments) => {
             if (err) {
                 console.error(err);
                 return;
@@ -88,10 +96,38 @@ buttonOfcallbackButton.addEventListener('click', () => {
 
 buttonOfpromiseButton.addEventListener('click', () => {
     console.log('Promise function called!');
+    getPosts(inputOfPostId.value)
+        .then((post) => {
+            imprimePost(post);
+            return post.id;
+        })
+        .then((postId) => {
+            return getComments(postId)
+        })
+        .then((comments) => {
+            imprimeComments(comments);
+        })
+        .catch((error) => {
+            console.error('Erro Promisse: ', error);
+        })
 });
 
 buttonOfpromiseAllButton.addEventListener('click', () => {
     console.log('Promise.all function called!');
+
+    Promise.all(
+        [getPosts(inputOfPostId.value), getComments(inputOfPostId.value)]
+    )
+        .then((responses) => {
+            const post = responses[0];
+            const comments = responses[1];
+
+            imprimePost(post);
+            imprimeComments(comments);
+        })
+        .catch((error) => {
+            console.error('Erro Promisse All: ', error);
+        })
 });
 
 buttonOfpromiseAllSettledButton.addEventListener('click', () => {
