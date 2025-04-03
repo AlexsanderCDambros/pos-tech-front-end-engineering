@@ -8,30 +8,30 @@ const buttonOfpromiseAsyncAwaitButton = document.getElementById("promiseAsyncAwa
 const inputOfPostId = document.getElementById("postIdInput");
 inputOfPostId.value = 1;
 
-function getPostsCB(postId, callback) {
+function getPosts(postId, callback) {
     return fetch('http://localhost:3000/posts/' + postId)
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        callback(data);
-    })
-    .catch((error) => {
-        console.error('Erro Post:', error);
-    });
+        .then((response) => {
+            return response.json();
+        })
+        .then((post) => {
+            callback(null, post);
+        })
+        .catch((error) => {
+            callback(error, null);
+        });
 }
 
-function getComentsCB(postId, callback) {
+function getComents(postId, callback) {
     return fetch('http://localhost:3000/comments?postId=' + postId)
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        callback(data);
-    })
-    .catch((error) => {
-        console.error('Erro Comments:', error);
-    });;
+        .then((response) => {
+            return response.json();
+        })
+        .then((post) => {
+            callback(null, post);
+        })
+        .catch((error) => {
+            callback(error, null);
+        });
 }
 
 function imprimePost(post) {
@@ -67,12 +67,20 @@ function imprimeComments(comment) {
     });
 }
 
-buttonOfcallbackButton.addEventListener ('click', () => {
+buttonOfcallbackButton.addEventListener('click', () => {
     console.log('Callback function called!');
     const postId = inputOfPostId.value;
-    getPosts(postId, (post) => {
+    getPosts(postId, (err, post) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
         imprimePost(post);
-        getComents(post.id, (comments) => {
+        getComents(post.id, (err, comments) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
             imprimeComments(comments);
         })
     })
